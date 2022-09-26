@@ -7,18 +7,14 @@ from rest_framework import serializers
 
 from apps.authentication.authentication_email import user_registration_mail
 from apps.authentication.models import User
+from apps.authentication.tokens import get_access_token
 from apps.common import validation_messages, constants
 from apps.common.utils import generate_rnd_number, generate_hash_code
 
 
-class SignUpSerializer(serializers.ModelSerializer):
+class UserDetailSerializer(serializers.ModelSerializer):
     """
-    Validate signup data and creating a new user.
-    create: validate request data for auth-user-instance creation
-    Return auth-user-instance object
-    to_representation :
-    Return modified serializer (add new keys-values required for processing, and those keys are not
-    required for processing, remove from serializer data) data of auth-user-instance
+    Description: Used for common details of user
     """
     first_name = serializers.CharField(
         required=True, max_length=validation_messages.CHAR_LIMIT_SIZE['first_name_max'],
@@ -34,8 +30,26 @@ class SignUpSerializer(serializers.ModelSerializer):
         error_messages=validation_messages.VALIDATION['username']
     )
     email = serializers.EmailField(
-        required=True,  error_messages=validation_messages.VALIDATION['email']
+        required=True, error_messages=validation_messages.VALIDATION['email']
     )
+
+    class Meta:
+        """
+        Meta class for SignUpSerializer
+        """
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email']
+
+
+class SignUpSerializer(UserDetailSerializer):
+    """
+    Validate signup data and creating a new user.
+    create: validate request data for auth-user-instance creation
+    Return auth-user-instance object
+    to_representation :
+    Return modified serializer (add new keys-values required for processing, and those keys are not
+    required for processing, remove from serializer data) data of auth-user-instance
+    """
     password = serializers.CharField(
         required=True, min_length=validation_messages.CHAR_LIMIT_SIZE['pass_min'],
         max_length=validation_messages.CHAR_LIMIT_SIZE['pass_max'],
@@ -100,3 +114,44 @@ class SignUpSerializer(serializers.ModelSerializer):
         """
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password']
+
+
+class LoginSerializer(serializers.ModelSerializer):
+    """
+    Serializer class for user login
+    """
+    email = serializers.EmailField(required=True, error_messages=validation_messages.VALIDATION['email'])
+    password = serializers.CharField(required=True, error_messages=validation_messages.VALIDATION['password'])
+    token = serializers.SerializerMethodField()
+
+    def validate(self, value):
+        """
+        Validate email
+        :param value: user email
+        :return: error or email
+        """
+        email = self.initial_data.get('email')
+        password = self.initial_data.get('password')
+        if not User.objects.filter(email=email).exists():
+            raise serializers.ValidationError({'detail': validation_messages.ERROR_MESSAGE['email']['invalid']})
+        user = User.objects.get(email=email)
+        if not user.check_password(password):
+            raise serializers.ValidationError({'detail': validation_messages.ERROR_MESSAGE['password']['invalid']})
+        if not user.is_active:
+            raise serializers.ValidationError(validation_messages.ERROR_MESSAGE['user']['inactive'])
+        value.update({"user": user})
+        return value
+
+    @staticmethod
+    def get_token(obj):
+        """
+        to get token
+        """
+        return get_access_token(obj)
+
+    class Meta:
+        """
+        Meta class for LoginSerializer
+        """
+        model = User
+        fields = ['email', 'password', 'token']

@@ -56,6 +56,19 @@ VALIDATION = {
 
 ERROR_MESSAGE = {
     'email': {
-        'exists': 'Email already exists',
+        'exists': 'EMAIL_ALREADY_EXISTS',
+        'invalid': 'INVALID_EMAIL',
+    },
+    'password': {
+        'invalid': 'INVALID_PASSWORD',
+    },
+    'user': {
+        'inactive': 'ACCOUNT_DEACTIVATED'
+    }
+}
+
+SUCCESS_MESSAGE = {
+    'login': {
+        'success': 'Login successfully'
     }
 }

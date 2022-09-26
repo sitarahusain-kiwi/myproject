@@ -42,6 +42,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'drf_yasg',
+    'oauth2_provider',
 ]
 
 # local apps list
@@ -145,11 +146,11 @@ SWAGGER_SETTINGS = {
         'basic': {
             'type': 'basic'
         },
-        # 'token': {
-        #     'type': 'apiKey',
-        #     'name': 'AUTHORIZATION',
-        #     'in': 'header',
-        # }
+        'token': {
+            'type': 'apiKey',
+            'name': 'AUTHORIZATION',
+            'in': 'header',
+        }
     }
 }
 
@@ -169,3 +170,14 @@ EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    )
+}
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+}

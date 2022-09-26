@@ -8,6 +8,7 @@ from apps.common.routers import OptionalSlashRouter
 
 router = OptionalSlashRouter()
 router.register(r'signup', views.SignUpViewSet, basename='signup')
+router.register(r'login', views.LoginViewSet, basename='login')
 
 urlpatterns = [
     path(r'auth/', include(router.urls)),

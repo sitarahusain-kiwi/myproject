@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework import status
 
-from apps.authentication.serializers import SignUpSerializer
+from apps.authentication.serializers import SignUpSerializer, LoginSerializer, UserDetailSerializer
+from apps.common import validation_messages
 from apps.common.utils import custom_response, custom_error_response
 from apps.common.viewsets import CustomModelViewSet
 
@@ -29,3 +30,28 @@ class SignUpViewSet(CustomModelViewSet):
             serializer.save()
             return custom_response(status=status.HTTP_201_CREATED, detail=None, data=serializer.data)
         return custom_error_response(status=status.HTTP_400_BAD_REQUEST, detail=serializer.errors)
+
+
+class LoginViewSet(CustomModelViewSet):
+    """
+    Description: used to login user
+    """
+    http_method_names = ('post', )
+    serializer_class = LoginSerializer
+
+    def create(self, request, *args, **kwargs):
+        """
+        User login
+        """
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            user_obj = serializer.validated_data.get('user')
+            user_obj.save()
+            print(user_obj)
+            serializer = self.serializer_class(user_obj).data
+            data = UserDetailSerializer(user_obj).data
+            data['token'] = serializer['token']
+            detail = validation_messages.SUCCESS_MESSAGE['login']['success']
+            return custom_response(detail=detail, data=data)
+        return custom_error_response(status=status.HTTP_400_BAD_REQUEST, detail=serializer.errors)
+
