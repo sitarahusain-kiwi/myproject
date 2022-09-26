@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <title> MyProject</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="" sizes="32x32">
+
+  </head>
+  <body style="margin: 0; padding: 0;">
+      <!-- start main wrapper -->
+      <table  style="height: 100vh; width: 100%; border: 0; margin: 0 auto; background-color: #f5f6fa; font-family: Arial, sans-serif;
+               border-collapse: collapse;">
+        <tr>
+          <th style="vertical-align: top;">
+            <table  style="width: 600px; margin: 35px auto 35px auto; border: 0; border-collapse: collapse;">
+              <tr>
+                <th>
+                  <table style=" border-collapse: collapse;width: 100%;">
+                  <tr style="display: inline-grid;">
+                    <th style="padding: 24px 50px 52px 32px; background: #fff; text-align: left; width: 518px;">
+                      <ul style="list-style-type: none; margin: 0; padding: 32px 0 0;">
+                         {% block content %}
+                          {% endblock %}
+                        <li style="font-family: Arial, sans-serif; font-size: 14px; color: #000; line-height: 1.43; margin: 0; padding: 0; list-style-type: none;font-weight: normal;">Thanks,
+                      </ul>
+                    </th>
+                  </tr>
+                </table>
+              </th>
+            </tr>
+          </table>
+        </th>
+      </tr>
+      </table>
+      <!-- main container end-->
+  </body>
+</html>

@@ -1,0 +1,10 @@
+{% extends 'layout/email.html' %}
+{% load static %}
+
+{% block content %}
+    <p style="font-family: Arial, sans-serif; font-weight: normal; font-size: 14px; color: #000; margin: 0 0 15px; line-height: normal;" xmlns="http://www.w3.org/1999/html">Hello {{detail.user.username}},</p>
+    <p style="font-family: Arial, sans-serif; font-weight: normal; font-size: 14px; color: #000; margin: 0 0 15px; line-height: normal;">Your Verification Code: <strong>{{detail.user.email_verification_otp}}</strong></p>
+
+{% endblock %}
+
+
