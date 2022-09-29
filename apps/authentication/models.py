@@ -41,6 +41,13 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     REQUIRED_FIELDS = []
     objects = UserManager()
 
+    def logout(self):
+        """
+        used to logout the user
+        """
+        self.oauth2_provider_accesstoken.all().delete()
+
+
     class Meta:
         """
         Meta class

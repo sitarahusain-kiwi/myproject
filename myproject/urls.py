@@ -36,5 +36,8 @@ admin.autodiscover()
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('apidoc/', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
-    path(constants.API_VERSION_URL, include(('apps.authentication.urls', 'authentication'), namespace='authentication'))
+    path(constants.API_VERSION_URL, include(
+        ('apps.authentication.urls', 'authentication'), namespace='authentication')
+         ),
+    path(constants.API_VERSION_URL, include(('apps.account.urls', 'account'), namespace='account'))
 ]

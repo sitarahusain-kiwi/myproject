@@ -25,3 +25,22 @@ def user_registration_mail(user_id):
             'detail': {'user': data}
         }
         send_email(email_data, 'emails/authentication/signup.html')
+
+
+@shared_task()
+def send_forgot_password_code(user_id):
+    """
+    send user forgot password code
+    :param user_id: request user id
+    :return: forgot password code mail send
+    """
+    user_obj = User.objects.filter(id=user_id).first()
+    if user_obj:
+        email_data_set = EMAIL_DATA_SET['forgot_password']
+        email_data = {
+            'to': user_obj.email,
+            'subject': email_data_set['subject'],
+            'message': email_data_set['body'],
+            'detail': {'user': user_obj, 'otp': user_obj.password_otp}
+        }
+        send_email(email_data, 'emails/account/forgot_password_code.html')

@@ -3,9 +3,7 @@
 media/
 *.name
 *.iml
-*.log
 *.pyo
-*.csv
 .DS_Store
 .idea
 venv/*
@@ -24,5 +22,3 @@ env/*
 *.vscode
 *.map
 env/*
-celerybeat-schedule
-celerybeat.pid

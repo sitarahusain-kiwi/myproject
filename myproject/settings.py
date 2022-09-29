@@ -49,6 +49,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'apps.authentication',
     'apps.common',
+    'apps.account',
 ]
 
 # all apps
@@ -181,3 +182,5 @@ OAUTH2_PROVIDER = {
     # this is the list of available scopes
     'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
 }
+
+BROKER_URL = os.getenv('BROKER_URL')

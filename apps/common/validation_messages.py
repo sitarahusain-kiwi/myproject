@@ -46,29 +46,28 @@ VALIDATION = {
         "pattern": "PASSWORD_PATTERN",
         "required": "PASSWORD_REQUIRED"
     },
-    'email_verification_code': {
-        "blank": "EMAIL_VERIFICATION_BLANK",
-        "min_length": "EMAIL_VERIFICATION_CODE_MIN_LENGTH",
-        "max_length": "EMAIL_VERIFICATION_CODE_MAX_LENGTH",
-        "required": "EMAIL_VERIFICATION_CODE_REQUIRED"
+    'email_verification_otp': {
+        "blank": "VERIFICATION_OTP_BLANK",
+        "min_length": "VERIFICATION_OTP_MIN_LENGTH",
+        "max_length": "VERIFICATION_OTP_MAX_LENGTH",
+        "required": "VERIFICATION_OTP_REQUIRED"
     },
 }
 
 ERROR_MESSAGE = {
     'email': {
         'exists': 'EMAIL_ALREADY_EXISTS',
-        'invalid': 'INVALID_EMAIL',
+        'invalid': 'EMAIL_INVALID',
+        'not_verified': 'EMAIL_NOT_VERIFIED',
     },
     'password': {
         'invalid': 'INVALID_PASSWORD',
     },
     'user': {
         'inactive': 'ACCOUNT_DEACTIVATED'
-    }
-}
-
-SUCCESS_MESSAGE = {
-    'login': {
-        'success': 'Login successfully'
+    },
+    'verification_otp': {
+        'invalid': 'EMAIL_VERIFICATION_OTP_INVALID',
+        'verified': 'EMAIL_ALREADY_VERIFIED'
     }
 }
